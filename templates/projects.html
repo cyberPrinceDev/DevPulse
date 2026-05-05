@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1" style="letter-spacing: -1px;">Project Workspaces</h2>
+        <p class="text-muted small">Manage and track your active engineering streams.</p>
+    </div>
+    <!-- Modal Trigger -->
+    <button class="btn btn-primary fw-bold px-4" data-bs-toggle="modal" data-bs-target="#newProjectModal">
+        + New Project
+    </button>
+</div>
+
+<div class="row g-4">
+    {% for project in projects %}
+    <div class="col-md-6 col-lg-4">
+        <!-- Combined Card: Logic + Styling -->
+        <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; background: #ffffff;">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <!-- Dynamic Status Badge -->
+                    <span
+                        class="badge {% if project.status == 'Active' %}bg-primary-subtle text-primary{% else %}bg-success-subtle text-success{% endif %} border">
+                        {{ project.status }}
+                    </span>
+
+                    <!-- Actions Dropdown (Delete/Complete) -->
+                    <div class="dropdown">
+                        <button class="btn btn-sm text-muted p-0" data-bs-toggle="dropdown" aria-expanded="false"
+                            style="line-height: 1;">
+                            <span style="font-size: 1.2rem;">⋮</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius: 10px;">
+                            {% if project.status == 'Active' %}
+                            <li>
+                                <form action="/complete_project/{{ project.id }}" method="post">
+                                    <button type="submit" class="dropdown-item small text-success py-2">
+                                        Mark as Completed
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            {% endif %}
+                            <li>
+                                <form action="/delete_project/{{ project.id }}" method="post"
+                                    onsubmit="return confirm('Are you sure? All tasks will be lost.');">
+                                    <button type="submit" class="dropdown-item small text-danger py-2">
+                                        Delete Project
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 class="fw-bold text-dark mb-1">{{ project.name }}</h4>
+                <small class="text-muted d-block mb-3">Created: {{ project.created_at[:10] if project.created_at else
+                    "Recently" }}</small>
+
+                <p class="text-muted small mb-4" style="min-height: 40px;">
+                    {{ project.description if project.description else "No description provided for this workspace." }}
+                </p>
+
+                <!-- Inside the card-body, after the description <p> tag -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="small fw-bold text-muted">Progress</span>
+                        <span class="small fw-bold text-primary">{{ project.progress }}%</span>
+                    </div>
+                    <div class="progress" style="height: 8px; border-radius: 10px; background-color: #e9ecef;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                            role="progressbar" style="width: {{ project.progress|safe }}%; border-radius: 10px;"
+                            aria-valuenow="{{ project.progress }}" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <small class="text-muted" style="font-size: 0.75rem;">
+                            {{ project.done_tasks }} of {{ project.total_tasks }} tasks completed
+                        </small>
+                    </div>
+                </div>
+
+                <a href="/project/{{ project.id }}" class="btn btn-outline-primary w-100 fw-bold py-2"
+                    style="border-radius: 8px;">
+                    Open Workspace
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="col-12 text-center py-5 bg-light rounded-4 border border-dashed">
+        <h5 class="text-muted fw-normal">No projects found. Create your first workspace to get started.</h5>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Modal logic for creating projects -->
+<div class="modal fade" id="newProjectModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 15px;">
+            <div class="modal-header border-bottom-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold">New Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/projects" method="post">
+                <div class="modal-body px-4">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Project Name</label>
+                        <input name="name" type="text" class="form-control border-secondary-subtle p-3"
+                            placeholder="e.g. Backend API Refactor" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Description</label>
+                        <textarea name="description" class="form-control border-secondary-subtle p-3" rows="3"
+                            placeholder="Describe the goals of this project..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 pb-4 px-4">
+                    <button type="button" class="btn btn-light fw-bold" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary fw-bold px-4">Create Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

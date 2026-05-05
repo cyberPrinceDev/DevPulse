@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Login | DevPulse</title>
+</head>
+
+<body>
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Welcome back</h2>
+            <p>Enter your details to access your workspace.</p>
+        </div>
+
+        <form action="/login" method="post">
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Username</label>
+                <input name="username" type="text" class="form-control-pro" required>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Password</label>
+                <input name="password" type="password" class="form-control-pro" required>
+            </div>
+
+            <button type="submit" class="btn-auth">Sign in</button>
+        </form>
+
+        <div class="auth-footer">
+            Don't have an account? <a href="/register">Create one</a>
+        </div>
+    </div>
+</body>
+
+</html>

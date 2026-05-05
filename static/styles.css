@@ -1,0 +1,86 @@
+:root {
+    --bg-main: #ffffff;
+    /* Pure White */
+    --bg-sidebar: #f8f9fa;
+    /* Light Ash */
+    --border: #e9ecef;
+    /* Soft Grey border */
+    --text-main: #212529;
+    /* Deep Charcoal */
+    --text-muted: #6c757d;
+    /* Medium Grey */
+    --primary: #0d6efd;
+    /* Professional Blue */
+    --sidebar-active: #e2e6ea;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', -apple-system, sans-serif;
+    margin: 0;
+}
+
+/* Sidebar Styling - "Ash" Theme */
+#sidebar {
+    min-width: 260px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    height: 100vh;
+}
+
+.sidebar-heading {
+    padding: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-link-custom {
+    color: var(--text-main);
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.nav-link-custom:hover {
+    background-color: var(--sidebar-active);
+    color: var(--primary);
+}
+
+/* Auth Cards (Login/Register) on White Background */
+.auth-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Dashboard Cards */
+.card-pro {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: box-shadow 0.2s;
+}
+
+.card-pro:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-auth {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    width: 100%;
+}

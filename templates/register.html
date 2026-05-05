@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Join DevPulse</title>
+</head>
+
+<body>
+    <div class="auth-card">
+        <div class="auth-header text-center">
+            <h2>Create an account</h2>
+            <p>Start managing your software lifecycle.</p>
+        </div>
+
+        <form action="/register" method="post">
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Username</label>
+                <input name="username" type="text" class="form-control-pro" autocomplete="off" required autofocus>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Password</label>
+                <input name="password" type="password" class="form-control-pro" required>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label class="form-label">Confirm Password</label>
+                <input name="confirmation" type="password" class="form-control-pro" required>
+            </div>
+
+            <button type="submit" class="btn-auth">Sign up</button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="/login">Sign in</a>
+        </div>
+    </div>
+</body>
+
+</html>

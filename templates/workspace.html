@@ -1,0 +1,183 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="mb-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-2">
+            <li class="breadcrumb-item"><a href="/projects" class="text-decoration-none">Projects</a></li>
+            <li class="breadcrumb-item active">{{ project.name }}</li>
+        </ol>
+    </nav>
+    <div class="d-flex justify-content-between align-items-end">
+        <div>
+            <h1 class="fw-bold tracking-tighter mb-1">{{ project.name }}</h1>
+            <p class="text-muted mb-0">{{ project.description }}</p>
+        </div>
+        <button class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+            + Add Task
+        </button>
+    </div>
+</div>
+
+<!-- Kanban Board -->
+<div class="row g-4">
+    <!-- Todo Column -->
+    <div class="col-md-4">
+        <div class="bg-light p-3 rounded-3 border h-100">
+            <h6 class="fw-bold text-uppercase small text-muted mb-3">● Todo</h6>
+            <div class="d-flex flex-column gap-3">
+                {% for task in tasks if task.status == 'Todo' %}
+                <!-- Task Card Start -->
+                <div class="card shadow-sm border-0 p-3" style="border-radius: 10px;">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-light text-muted border small" style="font-size: 0.7rem;">TASK-{{ task.id
+                            }}</span>
+                        <div class="dropdown">
+                            <button class="btn btn-sm text-muted p-0"
+                                data-bs-toggle="dropdown"><small>⋮</small></button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                                <li>
+                                    <h6 class="dropdown-header">Move to...</h6>
+                                </li>
+                                <li>
+                                    <form action="/update_task_status" method="post"><input type="hidden" name="task_id"
+                                            value="{{ task.id }}"><input type="hidden" name="project_id"
+                                            value="{{ project.id }}"><input type="hidden" name="status"
+                                            value="In Progress"><button type="submit" class="dropdown-item small">In
+                                            Progress</button></form>
+                                </li>
+                                <li>
+                                    <form action="/update_task_status" method="post"><input type="hidden" name="task_id"
+                                            value="{{ task.id }}"><input type="hidden" name="project_id"
+                                            value="{{ project.id }}"><input type="hidden" name="status"
+                                            value="Done"><button type="submit" class="dropdown-item small">Done</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="mb-0 fw-semibold text-dark">{{ task.title }}</p>
+                </div>
+                <!-- Task Card End -->
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- In Progress Column -->
+    <div class="col-md-4">
+        <div class="bg-light p-3 rounded-3 border h-100">
+            <h6 class="fw-bold text-uppercase small text-primary mb-3">● In Progress</h6>
+            <div class="d-flex flex-column gap-3">
+                {% for task in tasks if task.status == 'In Progress' %}
+                <div class="card shadow-sm border-0 p-3" style="border-radius: 10px;">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-light text-muted border small" style="font-size: 0.7rem;">TASK-{{ task.id
+                            }}</span>
+                        <div class="dropdown">
+                            <button class="btn btn-sm text-muted p-0"
+                                data-bs-toggle="dropdown"><small>⋮</small></button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                                <li>
+                                    <h6 class="dropdown-header">Move to...</h6>
+                                </li>
+                                <li>
+                                    <form action="/update_task_status" method="post"><input type="hidden" name="task_id"
+                                            value="{{ task.id }}"><input type="hidden" name="project_id"
+                                            value="{{ project.id }}"><input type="hidden" name="status"
+                                            value="Todo"><button type="submit" class="dropdown-item small">Todo</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form action="/update_task_status" method="post"><input type="hidden" name="task_id"
+                                            value="{{ task.id }}"><input type="hidden" name="project_id"
+                                            value="{{ project.id }}"><input type="hidden" name="status"
+                                            value="Done"><button type="submit" class="dropdown-item small">Done</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="mb-0 fw-semibold text-dark">{{ task.title }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Done Column -->
+    <div class="col-md-4">
+        <div class="bg-light p-3 rounded-3 border h-100">
+            <h6 class="fw-bold text-uppercase small text-success mb-3">● Done</h6>
+            <div class="d-flex flex-column gap-3">
+                {% for task in tasks if task.status == 'Done' %}
+                <div class="card shadow-sm border-0 p-3" style="border-radius: 10px;">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-light text-muted border small" style="font-size: 0.7rem;">TASK-{{ task.id
+                            }}</span>
+                        <div class="dropdown">
+                            <button class="btn btn-sm text-muted p-0"
+                                data-bs-toggle="dropdown"><small>⋮</small></button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                                <li>
+                                    <h6 class="dropdown-header">Move to...</h6>
+                                </li>
+                                <li>
+                                    <form action="/update_task_status" method="post"><input type="hidden" name="task_id"
+                                            value="{{ task.id }}"><input type="hidden" name="project_id"
+                                            value="{{ project.id }}"><input type="hidden" name="status"
+                                            value="Todo"><button type="submit" class="dropdown-item small">Todo</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form action="/update_task_status" method="post"><input type="hidden" name="task_id"
+                                            value="{{ task.id }}"><input type="hidden" name="project_id"
+                                            value="{{ project.id }}"><input type="hidden" name="status"
+                                            value="In Progress"><button type="submit" class="dropdown-item small">In
+                                            Progress</button></form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="mb-0 fw-semibold text-muted text-decoration-line-through">{{ task.title }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Task Modal -->
+<div class="modal fade" id="addTaskModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 15px;">
+            <div class="modal-header border-bottom-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold">Add New Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/add_task" method="post">
+                <div class="modal-body px-4">
+                    <input type="hidden" name="project_id" value="{{ project.id }}">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Task Title</label>
+                        <input name="title" type="text" class="form-control border-secondary-subtle p-3"
+                            placeholder="e.g. Design Login Page" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Initial Status</label>
+                        <select name="status" class="form-select border-secondary-subtle p-3">
+                            <option value="Todo">Todo</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Done">Done</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 pb-4 px-4">
+                    <button type="button" class="btn btn-light fw-bold" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary fw-bold px-4">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
